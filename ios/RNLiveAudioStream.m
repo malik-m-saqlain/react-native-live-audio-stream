@@ -29,14 +29,16 @@ RCT_EXPORT_METHOD(start) {
     // Instead of setting your category and mode properties independently, set them at the same time
     if (@available(iOS 10.0, *)) {
         success = [audioSession setCategory: AVAudioSessionCategoryPlayAndRecord
-                                       mode: AVAudioSessionModeVoiceChat
+                                    mode: AVAudioSessionModeVideoRecording
                                     options: AVAudioSessionCategoryOptionDuckOthers |
-                                             AVAudioSessionCategoryOptionAllowBluetooth |
-                                             AVAudioSessionCategoryOptionAllowAirPlay
-                                      error: &error];
+                                            AVAudioSessionCategoryOptionAllowBluetooth |
+                                            AVAudioSessionCategoryOptionAllowAirPlay
+                                    error: &error];
     } else {
-        success = [audioSession setCategory: AVAudioSessionCategoryPlayAndRecord withOptions: AVAudioSessionCategoryOptionDuckOthers error: &error];
-        success = [audioSession setMode: AVAudioSessionModeVoiceChat error: &error] && success;
+        success = [audioSession setCategory: AVAudioSessionCategoryPlayAndRecord
+                                withOptions: AVAudioSessionCategoryOptionDuckOthers
+                                    error:&error];
+        success = [audioSession setMode: AVAudioSessionModeVideoRecording error:&error] && success;
     }
     if (!success || error != nil) {
         RCTLog(@"[RNLiveAudioStream] Problem setting up AVAudioSession category and mode. Error: %@", error);
